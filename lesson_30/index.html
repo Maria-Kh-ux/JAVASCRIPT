@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/main.css">
+</head>
+
+<body>
+    <section class="first">
+        <div id="container"></div>
+        <button id="open-btn">Відкрити вікно</button>
+
+        <div id="modal">
+            <p>Це твоє перше модальне вікно! 🎉</p>
+            <button id="close-btn">Закрити</button>
+        </div>
+        <div id="traffic-light">
+            <div class="bulb red"></div>
+            <div class="bulb yellow"></div>
+            <div class="bulb green"></div>
+        </div>
+        <button id="next-btn">Наступний колір</button>
+    </section>
+    <section class="second">
+        <div class="shop-wrapper">
+            <div class="add-form">
+                <input type="text" id="nameInput" placeholder="Назва продукту">
+                <input type="number" id="priceInput" placeholder="Ціна">
+                <input type="number" id="countInput" placeholder="Кількість">
+                <button id="addBtn">Додати в кошик</button>
+            </div>
+            <div id="productGrid" class="product-grid"></div>
+            <div class="total-all">
+                Всього до сплати: <span id="totalSum">0</span> грн
+            </div>
+        </div>
+
+    </section>
+
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
