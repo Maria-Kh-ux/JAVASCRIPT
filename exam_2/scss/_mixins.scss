@@ -1,0 +1,37 @@
+@use 'variables' as *;
+
+@mixin sm {
+    @media (max-width: #{$bp-sm}) {
+        @content;
+    }
+}
+
+@mixin md {
+    @media (max-width: #{$bp-md}) {
+        @content;
+    }
+}
+
+@mixin lg {
+    @media (max-width: #{$bp-lg}) {
+        @content;
+    }
+}
+
+@mixin xl {
+    @media (max-width: #{$bp-xl}) {
+        @content;
+    }
+}
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

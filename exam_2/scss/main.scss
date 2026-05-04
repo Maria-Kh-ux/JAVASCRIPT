@@ -1,3 +1,5 @@
+@use 'mixins' as *;
+
 * {
     margin: 0;
     padding: 0;
@@ -9,21 +11,30 @@ body {
 }
 
 .container {
-    max-width: 1170px;
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 15px;
+
+    &--narrow {
+        max-width: 800px;
+    }
 }
 
 .hero {
-    height: 100vh;
     height: 800px;
     overflow: hidden;
     color: #fff;
     display: flex;
     flex-direction: column;
-    background:
-        url('../assets/img/MaskGroup.svg') center/cover no-repeat,
+    position: relative;
+    background: url('../assets/img/MaskGroup.svg') center/cover no-repeat,
         url('../assets/img/Background.svg') center/cover no-repeat;
+
+    @include lg {
+        height: 100vh;
+        min-height: 400px;
+    }
 
     &_title {
         transition: color 0.5s ease;
@@ -31,23 +42,80 @@ body {
 }
 
 .header {
-    .logo {
-        margin-right: 144px;
-    }
-
     .nav {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding-top: 53px;
-        width: 100%;
-        height: 54px;
-        min-width: 1170px;
+
+        @include md {
+            flex-wrap: wrap;
+            padding-top: 15px;
+            position: relative;
+        }
+
+        &_button {
+            display: none;
+
+            @include sm {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: none;
+                border: 0;
+                color: #fff;
+                font-size: 26px;
+                width: 40px;
+                height: 40px;
+                position: relative;
+
+                i {
+                    z-index: 1;
+                    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+                }
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    background: #fff;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+                    transform: scale(0);
+                }
+
+                &.active {
+                    color: #2c4058;
+
+                    &::before {
+                        transform: scale(1);
+                    }
+                }
+            }
+        }
 
         &_list {
             display: flex;
             list-style: none;
             gap: 70px;
+
+            @include lg {
+                gap: 15px;
+            }
+
+            @include sm {
+                position: absolute;
+                top: 60px;
+                right: -15px;
+                left: -15px;
+                flex-direction: column;
+                gap: 0;
+                z-index: 1001;
+                display: none;
+            }
 
             li {
                 display: flex;
@@ -55,11 +123,16 @@ body {
                 white-space: nowrap;
                 cursor: pointer;
 
-                a {
-                    color: #fff;
-                    font-family: "Source Sans Pro", sans-serif;
-                    font-weight: 400;
-                    font-size: 14px;
+                @include sm {
+                    padding: 15px;
+                    background: #7e57c2;
+                    opacity: 0;
+                    transform: translateX(140px);
+                    transition: all 0.5s;
+
+                    &+li {
+                        border-top: 1px solid #fff;
+                    }
                 }
 
                 &::before {
@@ -81,6 +154,7 @@ body {
                 }
 
                 a {
+                    font-family: 'Source Sans Pro', sans-serif;
                     color: #fff;
                     text-decoration: none;
                     font-size: 14px;
@@ -98,8 +172,7 @@ body {
 
         .social-links {
             display: flex;
-            gap: 15px;
-            margin-left: 110px;
+            gap: 20px;
 
             a {
                 display: flex;
@@ -114,9 +187,26 @@ body {
                 }
 
                 &:hover {
+                    border-radius: 50%;
                     background-color: rgba(255, 255, 255, 0.2);
                     border-color: #fff;
                 }
+            }
+        }
+
+        .logo {
+            img {
+                @include lg {
+                    width: 150px;
+                }
+            }
+
+            @include md {
+                flex: 0 0 100%;
+            }
+
+            @include sm {
+                flex: 0;
             }
         }
     }
@@ -131,24 +221,50 @@ body {
         width: 100%;
         margin-top: 223px;
 
+        @include md {
+            margin-top: 0;
+            height: calc(100vh - 180px);
+        }
+
+        @include sm {
+            padding: 0 15px;
+        }
+
         h1 {
             font-weight: 700;
-            font-size: 70px;
-            letter-spacing: 0.1em;
+            font-size: 76px;
+            letter-spacing: 12px;
             color: #fff;
             margin-bottom: 20px;
+
+            @include lg {
+                font-size: 36px;
+                letter-spacing: 2px;
+                margin-bottom: 5px;
+            }
         }
 
         p {
             font-size: 18px;
             letter-spacing: 4px;
             text-transform: uppercase;
+
+            @include lg {
+                font-size: 16px;
+            }
         }
     }
 
     .scroll-down {
         padding-bottom: 50px;
         margin-top: 240px;
+
+        @include md {
+            margin: 0;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+        }
 
         .circle-btn {
             display: block;
@@ -166,19 +282,22 @@ body {
                 transform: translateY(5px);
             }
         }
-
     }
 
     // Пиши це поза іншими блоками або чітко всередині .header
     .side-dots {
         position: absolute; // Або fixed
         right: 50px; // Зменшив відступ, щоб точно було видно
-        top: 420px;
+        top: 50%;
         transform: translateY(-50%);
         display: flex;
         flex-direction: column;
         gap: 40px;
         z-index: 1000; // Щоб було поверх усього
+
+        @include md {
+            right: 15px;
+        }
 
         .dot {
             display: block; // !important змусить браузер дати розмір
@@ -190,21 +309,30 @@ body {
             background-color: transparent; // Порожні всередині
             transition: 0.3s;
 
-            &:hover {
+            &:hover,
+            &.dot-active {
                 background-color: #fff;
                 transform: scale(1.2);
             }
         }
     }
-
 }
 
 .project {
     padding: 100px 0;
     background-color: #fff;
+    overflow: hidden;
+
+    @include lg {
+        padding: 20px 0;
+    }
 
     .project_title {
         margin-bottom: 90px;
+
+        @include lg {
+            margin-bottom: 40px;
+        }
 
         h2 {
             font-family: 'Montserrat', sans-serif;
@@ -212,6 +340,11 @@ body {
             font-size: 44px;
             color: #2c2c2c;
             position: relative;
+            text-align: center;
+
+            @include lg {
+                font-size: 28px;
+            }
 
             &::before {
                 content: '';
@@ -230,12 +363,28 @@ body {
         gap: 70px;
         margin-bottom: 140px;
 
+        @include lg {
+            margin-bottom: 40px;
+        }
+
+        @include lg {
+            gap: 30px;
+        }
+
         &:nth-child(odd) {
             flex-direction: row-reverse;
+
+            @include sm {
+                flex-direction: column;
+            }
         }
 
         &:nth-child(even) {
             flex-direction: row;
+
+            @include sm {
+                flex-direction: column;
+            }
         }
 
         .project_img-wrapper {
@@ -255,17 +404,39 @@ body {
                 height: 100%;
                 z-index: -1;
                 top: -40px;
+
+                @include md {
+                    top: -15px;
+                }
             }
         }
 
         .blue-box::before {
-            background-color: #55B2FF;
+            background-color: #55b2ff;
             left: -260px;
+
+            @include lg {
+                left: auto;
+                right: 40px;
+
+                @include md {
+                    right: 15px;
+                }
+            }
         }
 
         .purple-box::before {
-            background-color: #7E57C2;
+            background-color: #7e57c2;
             right: -260px;
+
+            @include lg {
+                right: auto;
+                left: 40px;
+
+                @include md {
+                    left: 15px;
+                }
+            }
         }
 
         .project_content {
@@ -273,17 +444,27 @@ body {
 
             .subtitle,
             .project_subtitle {
-                font-family: "Montserrat", sans-serif;
+                font-family: 'Montserrat', sans-serif;
                 font-weight: 400;
                 font-size: 22px;
                 color: #2c4058;
                 text-transform: uppercase;
+
+                @include lg {
+                    font-size: 18px;
+                    margin: 0;
+                }
             }
 
             h3.project_title {
                 font-size: 44px;
                 margin: 15px 0 30px;
                 font-family: 'Montserrat', sans-serif;
+
+                @include lg {
+                    font-size: 26px;
+                    margin: 0;
+                }
             }
 
             .project_text {
@@ -291,6 +472,12 @@ body {
                 line-height: 1.8;
                 margin-bottom: 40px;
                 color: #4b4b4b;
+
+                @include lg {
+                    font-size: 16px;
+                    line-height: 1.2;
+                    margin-bottom: 15px;
+                }
             }
 
             .btn-more {
@@ -302,6 +489,10 @@ body {
                 font-family: 'Montserrat', sans-serif;
                 transition: 0.3s;
 
+                @include lg {
+                    padding: 10px 20px;
+                }
+
                 &:hover {
                     background: #2c2c2c;
                     color: #fff;
@@ -309,13 +500,16 @@ body {
             }
 
             .project_location {
-                margin-top: 30px;
-                font-family: "Open Sans", sans-serif;
+                font-family: 'Open Sans', sans-serif;
                 font-style: italic;
                 font-weight: 400;
                 font-size: 15px;
                 color: #000;
                 margin-top: 60px;
+
+                @include lg {
+                    margin-top: 20px;
+                }
 
                 i {
                     margin-right: 10px;
@@ -327,14 +521,23 @@ body {
 
 .news {
     padding: 120px 0;
-    background: url(../assets/img/Background\(1\).svg)center/cover no-repeat;
+    background: url('../assets/img/Background_1.svg') center/cover no-repeat;
     min-height: 978px;
     color: #fff;
     overflow: hidden;
 
+    @include md {
+        padding: 20px 0;
+        min-height: 400px;
+    }
+
     .news_header {
         text-align: center;
         margin-bottom: 90px;
+
+        @include md {
+            margin-bottom: 10px;
+        }
 
         h2 {
             font-family: 'Montserrat', sans-serif;
@@ -342,6 +545,10 @@ body {
             font-weight: 700;
             text-transform: uppercase;
             position: relative;
+
+            @include lg {
+                font-size: 28px;
+            }
 
             &::before {
                 content: '';
@@ -414,10 +621,18 @@ body {
         height: 100%;
         min-height: 520px;
 
+        @include md {
+            min-height: 320px;
+        }
+
         .news_card-img {
             width: 100%;
             height: 240px;
             overflow: hidden;
+
+            @include md {
+                height: 160px;
+            }
 
             img {
                 width: 100%;
@@ -434,6 +649,10 @@ body {
             display: flex;
             flex-direction: column;
 
+            @include md {
+                padding: 15px;
+            }
+
             h3 {
                 font-family: 'Montserrat', sans-serif;
                 font-size: 22px;
@@ -443,6 +662,12 @@ body {
                 height: 54px;
                 overflow: hidden;
                 line-height: 1.2;
+
+                @include md {
+                    font-size: 18px;
+                    height: auto;
+                    margin-bottom: 0;
+                }
             }
 
             p {
@@ -453,6 +678,11 @@ body {
                 margin-bottom: 25px;
                 height: 75px;
                 overflow: hidden;
+
+                @include md {
+                    height: auto;
+                    margin-bottom: 0;
+                }
             }
         }
 
@@ -462,6 +692,10 @@ body {
             gap: 15px;
             padding: 0 20px 30px;
             margin-top: auto;
+
+            @include md {
+                padding: 0;
+            }
 
             img {
                 width: 60px;
@@ -480,7 +714,7 @@ body {
 
                 .author_date {
                     font-size: 14px;
-                    color: #55B2FF;
+                    color: #55b2ff;
                 }
             }
         }
@@ -493,7 +727,6 @@ body {
         margin-top: 60px;
         padding: 0;
         gap: 15px;
-
 
         li {
             button {
@@ -516,7 +749,6 @@ body {
             &.slick-active button {
                 background: #fff;
             }
-
         }
     }
 }
@@ -524,6 +756,10 @@ body {
 .gallery {
     padding: 100px 0;
     background-color: #fff;
+
+    @include md {
+        padding: 40px 0;
+    }
 
     &_item_hidden {
         display: none;
@@ -533,12 +769,20 @@ body {
         text-align: center;
         margin-bottom: 90px;
 
+        @include md {
+            margin-bottom: 10px;
+        }
+
         h2 {
             font-family: 'Montserrat', sans-serif;
             font-size: 44px;
             font-weight: 700;
             color: #2c2c2c;
             position: relative;
+
+            @include lg {
+                font-size: 28px;
+            }
 
             &::before {
                 content: '';
@@ -547,6 +791,10 @@ body {
                 height: 1px;
                 background: #2c2c2c;
                 margin: 0 auto 30px;
+
+                @include md {
+                    margin-bottom: 10px;
+                }
             }
         }
     }
@@ -558,6 +806,15 @@ body {
         gap: 10px;
         max-width: 1170px;
         margin: 0 auto;
+
+        @include md {
+            grid-auto-rows: 200px;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @include sm {
+            grid-template-columns: repeat(2, 1fr);
+        }
     }
 
     &_item {
@@ -569,6 +826,10 @@ body {
         &.big {
             grid-column: span 2;
             grid-row: span 2;
+
+            @include md {
+                grid-row: auto;
+            }
         }
 
         img {
@@ -622,6 +883,10 @@ body {
         text-align: center;
         margin-top: 60px;
 
+        @include md {
+            margin-top: 20px;
+        }
+
         .btn-outline {
             display: inline-block;
             padding: 15px 50px;
@@ -630,6 +895,10 @@ body {
             text-decoration: none;
             font-family: 'Montserrat', sans-serif;
             transition: 0.3s;
+
+            @include md {
+                padding: 10px 20px;
+            }
 
             &:hover {
                 background: #2c2c2c;
@@ -643,10 +912,22 @@ body {
     position: relative;
     height: 850px;
 
+    @include md {
+        height: 300px;
+    }
+
+    @include sm {
+        height: auto;
+    }
+
     #map {
         width: 100%;
         height: 850px;
         z-index: 1;
+
+        @include md {
+            height: 300px;
+        }
     }
 
     &_card {
@@ -658,9 +939,22 @@ body {
         padding: 60px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 
+        @include md {
+            height: auto;
+            padding: 15px;
+        }
+
+        @include sm {
+            margin-top: 15px;
+        }
+
         &-header {
             text-align: center;
             margin-bottom: 40px;
+
+            @include md {
+                margin-bottom: 20px;
+            }
 
             h2 {
                 font-family: 'Montserrat', sans-serif;
@@ -669,6 +963,14 @@ body {
                 color: #2c2c2c;
                 position: relative;
 
+                @include lg {
+                    font-size: 28px;
+                }
+
+                @include md {
+                    font-size: 22px;
+                }
+
                 &::before {
                     content: '';
                     display: block;
@@ -676,6 +978,10 @@ body {
                     height: 1px;
                     background: #2c2c2c;
                     margin: 0 auto 30px;
+
+                    @include md {
+                        margin: 0 auto 15px;
+                    }
                 }
             }
         }
@@ -685,6 +991,11 @@ body {
             justify-content: space-between;
             gap: 50px;
             align-items: flex-start;
+
+            @include sm {
+                flex-direction: column;
+                gap: 15px;
+            }
         }
     }
 
@@ -697,6 +1008,11 @@ body {
             margin-bottom: 25px;
             font-size: 18px;
             color: #2c2c2c;
+
+            @include md {
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
 
             i {
                 color: #7e57ff;
@@ -720,8 +1036,16 @@ body {
     &_form {
         flex: 1;
 
+        @include sm {
+            width: 100%;
+        }
+
         .input-group {
             margin-bottom: 30px;
+
+            @include md {
+                margin-bottom: 0;
+            }
 
             input {
                 width: 100%;
@@ -732,6 +1056,10 @@ body {
                 font-size: 18px;
                 outline: none;
                 transition: border-color 0.3s;
+
+                @include md {
+                    font-size: 16px;
+                }
 
                 &:focus {
                     border-bottom-color: #7ed4ff;
@@ -756,6 +1084,10 @@ body {
                 cursor: pointer;
                 transition: 0.3s;
 
+                @include md {
+                    margin-top: 00px;
+                }
+
                 &:hover {
                     background: #2c2c2c;
                     color: #fff;
@@ -766,22 +1098,32 @@ body {
 }
 
 .footer {
-    background: url(../assets/img/Background\(2\).svg)center/cover no-repeat;
+    background: url('../assets/img/Background.svg') center/cover no-repeat;
     padding: 250px 0 60px;
     color: #fff;
     height: 550px;
     margin-top: 0;
+
+    @include md {
+        padding: 60px 0;
+        height: auto;
+    }
 
     &_top {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 40px;
+
+        @include md {
+            margin-bottom: 10px;
+        }
     }
 
     &_socials {
         display: flex;
         gap: 20px;
+        border: 1px solid black;
 
         a {
             display: flex;
@@ -805,9 +1147,21 @@ body {
     &_bottom {
         margin-top: 40px;
 
+        @include md {
+            margin-top: 0;
+        }
+
         .copyright {
             font-size: 14px;
             font-family: 'Montserrat', sans-serif;
+        }
+    }
+
+    &_logo {
+        @include md {
+            img {
+                max-width: 120px;
+            }
         }
     }
 }
