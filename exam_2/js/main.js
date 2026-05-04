@@ -72,7 +72,6 @@ $(document).ready(function () {
     `);
 });
 $(document).ready(function () {
-  // Шукаємо кнопку за ID або класом
   $('#see-more-btn').on('click', function (e) {
     e.preventDefault();
     $('.gallery_item_hidden').fadeIn(800);
@@ -105,7 +104,7 @@ window.addEventListener('load', function () {
     );
   }
 
-  /* крапки*/
+
   const dots = document.querySelectorAll('.dot');
   const heroTitle = document.querySelector('.hero_title');
 
@@ -149,7 +148,6 @@ window.addEventListener('load', function () {
     });
   }
 
-  /* кінець крапок */
   $(document).ready(function () {
     $('#menu-button').on('click', function () {
       $(this).toggleClass('active');
@@ -157,17 +155,15 @@ window.addEventListener('load', function () {
       const $items = $menu.find('li');
 
       if (!$menu.is(':visible')) {
-        // 1. Показуємо контейнер
         $menu.fadeIn(300);
 
-        // 2. Анімуємо кожен елемент по черзі
         $items.each(function (index) {
           $(this)
             .delay(100 * index)
             .animate(
               {
                 opacity: 1,
-                top: 0, // якщо використовуєте position relative
+                top: 0, 
               },
               {
                 step: function (now, fx) {
@@ -178,7 +174,6 @@ window.addEventListener('load', function () {
             );
         });
       } else {
-        // Закриття меню (скидаємо стилі)
         $items.css({ opacity: 0, transform: 'translateX(140px)' });
         $menu.fadeOut(300);
       }
